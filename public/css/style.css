@@ -2,6 +2,9 @@ body { font-family: Arial, sans-serif; margin: 0; }
 header { padding: 20px; background: #222; color: white; }
 nav a { color: white; margin-right: 15px; text-decoration: none; }
 main { padding: 30px; }
+.alert { margin: 16px 30px; padding: 14px 18px; border: 1px solid transparent; border-radius: 4px; }
+.alert-success { color: #155724; background: #d4edda; border-color: #c3e6cb; }
+.alert-danger { color: #721c24; background: #f8d7da; border-color: #f5c6cb; }
 footer { padding: 20px; background: #eee; }
 form div { margin-bottom: 15px; }
 label { display: block; margin-bottom: 5px; }

@@ -45,7 +45,9 @@ class ItemList {
 
         if (index !== -1) {
             this.tab.splice(index, 1);
+            return true;
         }
+        return false;
     }
 
     removeItemByName(name) {
@@ -54,7 +56,9 @@ class ItemList {
 
         if (index !== -1) {
             this.tab.splice(index, 1);
+            return true;
         }
+        return false;
     }
 
     getLastItem() {
@@ -68,17 +72,28 @@ class ItemList {
         console.log(this.tab);
     }
 }
+
+// Création de la liste
+const liste = new ItemList();
+
+liste.add(new Item(1, "test1", 12.34));
+liste.add(new Item(2, "test2", 12.45));
+liste.add(new Item(3, "test3", 77.45));
+
+
 router.get('/', (req, res) => {
 
-    const items = [
-        { id: 1, dateCreation: '9/26/2019', nom: 'test1', prix: 12.34 },
-        { id: 2, dateCreation: '9/26/2019', nom: 'test2', prix: 12.45 },
-        { id: 3, dateCreation: '9/26/2019', nom: 'test3', prix: 77.45 }
-    ];
+  let success = req.query.success;
 
     res.render('pages/index', {
         title: 'Accueil',
-        items: items
+        items: liste.tab,
+        success: success
     });
 });
-module.exports = router;
+module.exports = {
+    router,
+    Item,
+    ItemList,
+    liste
+};

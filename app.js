@@ -3,14 +3,17 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
-
+const index = require('./routes/index');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(express.static('./public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(require('./routes/index'));
+app.use('/items/delete/id', require('./routes/delet'));
+app.use('/items/delete/name', require('./routes/sup_nom'));
+app.use(index.router);
+app.use('/items/add', require('./routes/items'));
 app.use('/contacts', require('./routes/contacts'));
 app.use((req, res) => res.status(404).render('pages/404', { title: 'Page introuvable' }));
 app.use((err, req, res, next) => {
@@ -18,5 +21,7 @@ app.use((err, req, res, next) => {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500).render('error');
 });
+
+
 if (require.main === module) app.listen(PORT, () => console.log(`Serveur démarré sur http://localhost:${PORT}`));
 module.exports = { app };

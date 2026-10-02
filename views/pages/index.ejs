@@ -1,28 +1,191 @@
 <!DOCTYPE html>
-<html lang="fr"><head><%- include('../partials/head') %></head><body>
-<%- include('../partials/header') %>
-<main><h2>Accueil</h2><p>Bienvenue sur mon application Node.js, Express et EJS.</p><p>Le serveur fonctionne correctement.</p></main>
-<%- include('../partials/footer') %>
+<html lang="fr">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Date de Creation</th>
-            <th>Nom</th>
-            <th>Prix</th>
-        </tr>
-    </thead>
+<head><%- include('../partials/head') %></head>
 
-    <tbody>
-        <% items.forEach(function(item) { %>
-            <tr>
-                <td><%= item.id %></td>
-                <td><%= item.dateCreation %></td>
-                <td><%= item.nom %></td>
-                <td><%= item.prix.toFixed(2) %></td>
-            </tr>
-        <% }); %>
-    </tbody>
-</table>
-</body></html>
+<body>
+    <%- include('../partials/header') %>
+        <main>
+            <h2>Accueil</h2>
+            <p>Bienvenue sur mon application Node.js, Express et EJS.</p>
+            <p>Le serveur fonctionne correctement.</p>
+        </main>
+     <% if (success === "true") { %>
+    <div class="alert alert-success">
+        Item supprimé avec succès
+    </div>
+<% } else if (success === "false") { %>
+    <div class="alert alert-danger">
+        Aucun item avec ce nom/ID
+    </div>
+<% } %>
+
+
+
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Date de Creation</th>
+                            <th>Nom</th>
+                            <th>Prix</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% items.forEach(function(item) { %>
+                            <tr>
+                                <td>
+                                    <%= item.id %>
+                                </td>
+                                <td>
+                                    <%= item.dateCreation %>
+                                </td>
+                                <td>
+                                    <%= item.nom %>
+                                </td>
+                                <td>
+                                    <%= item.prix.toFixed(2) %>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+
+                <div class="row g-4">
+
+
+                    <!-- Ajouter un item -->
+
+                    <div class="col-md-4">
+
+                        <div class="card shadow-sm h-100">
+
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0">Ajouter un item</h5>
+                            </div>
+
+                            <div class="card-body">
+
+                                <form action="/items/add" method="POST">
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            Nom
+                                        </label>
+
+                                        <input type="text" name="nom" class="form-control" placeholder="Ex: Clavier"
+                                            required>
+
+                                    </div>
+
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            Prix
+                                        </label>
+
+                                        <input type="number" name="prix" step="0.01" min="0" class="form-control"
+                                            placeholder="Ex: 49.99" required>
+
+                                    </div>
+
+
+                                    <button type="submit" class="btn btn-success w-100">
+                                        Ajouter
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Supprimer par ID -->
+
+                    <div class="col-md-4">
+
+                        <div class="card shadow-sm h-100">
+
+                            <div class="card-header bg-danger text-white">
+                                <h5 class="mb-0">Supprimer par ID</h5>
+                            </div>
+
+                            <div class="card-body">
+
+                                <form action="/items/delete/id" method="POST">
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            ID de l'item
+                                        </label>
+
+                                        <input type="number" name="id" min="1" class="form-control" placeholder="Ex: 2"
+                                            required>
+
+                                    </div>
+
+
+                                    <button type="submit" class="btn btn-danger w-100">
+                                        Supprimer
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Supprimer par nom -->
+
+                    <div class="col-md-4">
+
+                        <div class="card shadow-sm h-100">
+
+                            <div class="card-header bg-warning">
+                                <h5 class="mb-0">Supprimer par nom</h5>
+                            </div>
+
+                            <div class="card-body">
+
+                                <form action="/items/delete/name" method="POST">
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            Nom de l'item
+                                        </label>
+
+                                        <input type="text" name="nom" class="form-control" placeholder="Ex: Clavier"
+                                            required>
+
+                                    </div>
+
+
+                                    <button type="submit" class="btn btn-warning w-100">
+                                        Supprimer
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <%- include('../partials/footer') %>
+</body>
+
+</html>
