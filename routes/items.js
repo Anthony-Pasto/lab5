@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+var mqtt = require('mqtt'); 
+var client  = mqtt.connect('mqtt://127.0.0.1:1883');
 
 const { Item, liste } = require('./index');
 
@@ -15,7 +17,7 @@ router.post('/', (req, res) => {
     }
 
     let nouvelItem = new Item(id, nom, prix);
-
+    client.publish('ITEM/WEB/NEW', 'Nouvel item ajouté : ' + JSON.stringify(nouvelItem));
     liste.add(nouvelItem);
 
     res.redirect('/');
