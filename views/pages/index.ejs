@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr"><head><%- include('../partials/head') %></head><body>
+<%- include('../partials/header') %>
+<main><h2>Accueil</h2><p>Bienvenue sur mon application Node.js, Express et EJS.</p><p>Le serveur fonctionne correctement.</p></main>
+<%- include('../partials/footer') %>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Date de Creation</th>
+            <th>Nom</th>
+            <th>Prix</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% items.forEach(function(item) { %>
+            <tr>
+                <td><%= item.id %></td>
+                <td><%= item.dateCreation %></td>
+                <td><%= item.nom %></td>
+                <td><%= item.prix.toFixed(2) %></td>
+            </tr>
+        <% }); %>
+    </tbody>
+</table>
+</body></html>
