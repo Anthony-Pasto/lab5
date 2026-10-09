@@ -1,3 +1,8 @@
+/*
+ * Date : 2026-10-09
+ * Auteur : Anthony Pasto
+ * Description : Definit les styles de base des pages, formulaires et alertes.
+ */
 body { font-family: Arial, sans-serif; margin: 0; }
 header { padding: 20px; background: #222; color: white; }
 nav a { color: white; margin-right: 15px; text-decoration: none; }

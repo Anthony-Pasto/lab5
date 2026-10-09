@@ -1,3 +1,8 @@
+/*
+ * Date : 2026-10-09
+ * Auteur : Anthony Pasto
+ * Description : Supprime un item par son ID et publie l'evenement MQTT associe.
+ */
 const express = require('express');
 const router = express.Router();
 var mqtt = require('mqtt'); 
@@ -12,6 +17,7 @@ router.post('/', (req, res) => {
     if (supprime) {
 
         client.publish('ITEM/WEB/DELETE/ID', 'Item supprimé : ' + JSON.stringify(id));
+        req.app.get('io').emit('items:updated');
     }
 
         

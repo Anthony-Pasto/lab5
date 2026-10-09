@@ -1,3 +1,8 @@
+<!--
+Date : 2026-10-09
+Auteur : Anthony Pasto
+Description : Affiche les items et les formulaires d'ajout, suppression et modification.
+-->
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -10,7 +15,15 @@
             <p>Bienvenue sur mon application Node.js, Express et EJS.</p>
             <p>Le serveur fonctionne correctement.</p>
         </main>
-     <% if (success === "true") { %>
+     <% if (success === "true" && action === "modify") { %>
+    <div class="alert alert-success">
+        Item modifié avec succès
+    </div>
+<% } else if (success === "false" && action === "modify") { %>
+    <div class="alert alert-danger">
+        Aucun item avec cet ID
+    </div>
+<% } else if (success === "true") { %>
     <div class="alert alert-success">
         Item supprimé avec succès
     </div>
@@ -184,7 +197,68 @@
 
                     </div>
 
+                    <!-- Modifier un item -->
+
+                    <div class="col-md-4">
+
+                        <div class="card shadow-sm h-100">
+
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0">Modifier un item</h5>
+                            </div>
+
+                            <div class="card-body">
+
+                                <form action="/items/modify/id" method="POST">
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            ID de l'item
+                                        </label>
+
+                                        <input type="number" name="id" min="1" class="form-control" placeholder="Ex: 2"
+                                            required>
+
+                                    </div>
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            Nouveau nom
+                                        </label>
+
+                                        <input type="text" name="newNom" class="form-control" placeholder="Ex: Clavier"
+                                            required>
+
+                                    </div>
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            Nouveau prix
+                                        </label>
+
+                                        <input type="number" name="newPrix" step="0.01" min="0" class="form-control"
+                                            placeholder="Ex: 49.99" required>
+
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        Modifier
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
+
+                
                 <%- include('../partials/footer') %>
 </body>
 

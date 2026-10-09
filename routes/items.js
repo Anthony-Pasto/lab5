@@ -1,3 +1,8 @@
+/*
+ * Date : 2026-10-09
+ * Auteur : Anthony Pasto
+ * Description : Ajoute un item a la liste et publie sa creation via MQTT.
+ */
 const express = require('express');
 const router = express.Router();
 var mqtt = require('mqtt'); 
@@ -19,6 +24,7 @@ router.post('/', (req, res) => {
     let nouvelItem = new Item(id, nom, prix);
     client.publish('ITEM/WEB/NEW', 'Nouvel item ajouté : ' + JSON.stringify(nouvelItem));
     liste.add(nouvelItem);
+    req.app.get('io').emit('items:updated');
 
     res.redirect('/');
 });
