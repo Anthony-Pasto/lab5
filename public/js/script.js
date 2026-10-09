@@ -6,5 +6,5 @@
 const socket = io();
 
 socket.on('items:updated', () => {
-	window.location.reload();
+    window.location.reload();
 });

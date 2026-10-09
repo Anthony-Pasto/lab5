@@ -16,40 +16,40 @@ app.set('io', io);
 const index = require('./routes/index');
 
 
-var mqtt = require('mqtt'); 
-var client  = mqtt.connect('mqtt://127.0.0.1:1883');
+var mqtt = require('mqtt');
+var client = mqtt.connect('mqtt://127.0.0.1:1883');
 
 function prixValide(prix) {
     return /^\d+(?:\.\d{1,2})?$/.test(prix) && Number.isFinite(Number(prix));
 }
 
-client.on('connect', function () { 
-console.log("MQTT connecté !"); 
-}); 
-client.subscribe('ITEM/MODULE/#'); 
+client.on('connect', function () {
+    console.log("MQTT connecté !");
+});
+client.subscribe('ITEM/MODULE/#');
 
 client.on('message', function (topic, message) {
-   const [element, module, action, cible] = topic.toString().split('/');
+    const [element, module, action, cible] = topic.toString().split('/');
     const contenu = message.toString().trim();
 
-    
+
 
     //const numero = Number(moduleText);
 
     const [texte, prix] = contenu.split(';');
-const commandesMajuscules = ['DELETE', 'NEW', 'MODULE', 'ITEM'];
+    const commandesMajuscules = ['DELETE', 'NEW', 'MODULE', 'ITEM'];
 
-const commande = commandesMajuscules.includes(texte.toUpperCase())
-    ? texte.toUpperCase()
-    : texte;
+    const commande = commandesMajuscules.includes(texte.toUpperCase())
+        ? texte.toUpperCase()
+        : texte;
 
-if (element === 'ITEM' && module === 'MODULE' && action === 'MODIFY' && cible === 'ID') {
+    if (element === 'ITEM' && module === 'MODULE' && action === 'MODIFY' && cible === 'ID') {
         const [id, newNom, newPrix] = contenu.split(';');
 
-    if (!prixValide(newPrix)) {
-        console.warn(`Modification MQTT refusée : prix invalide (${newPrix})`);
-        return;
-    }
+        if (!prixValide(newPrix)) {
+            console.warn(`Modification MQTT refusée : prix invalide (${newPrix})`);
+            return;
+        }
 
         fetch('http://localhost:3000/items/modify/id', {
             method: 'POST',
@@ -60,7 +60,7 @@ if (element === 'ITEM' && module === 'MODULE' && action === 'MODIFY' && cible ==
         })
     }
 
-    if (element === 'ITEM' && module==='MODULE' && action === 'NEW') {
+    if (element === 'ITEM' && module === 'MODULE' && action === 'NEW') {
 
         if (!prixValide(prix)) {
             console.warn(`Ajout MQTT refusé : prix invalide (${prix})`);
@@ -77,11 +77,11 @@ if (element === 'ITEM' && module === 'MODULE' && action === 'MODIFY' && cible ==
         })
     }
 
-  if (element === 'ITEM' && module==='MODULE' && action === 'DELETE'&& cible === 'ID') {
+    if (element === 'ITEM' && module === 'MODULE' && action === 'DELETE' && cible === 'ID') {
 
         const id = contenu.split(';').pop().trim();
         console.log(`Suppression MQTT par ID : ${id}`);
-          fetch('http://localhost:3000/items/delete/id', {
+        fetch('http://localhost:3000/items/delete/id', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -90,7 +90,7 @@ if (element === 'ITEM' && module === 'MODULE' && action === 'MODIFY' && cible ==
         })
     }
 
-      if (element === 'ITEM' && module==='MODULE' && action === 'DELETE'&& cible === 'NAME') {
+    if (element === 'ITEM' && module === 'MODULE' && action === 'DELETE' && cible === 'NAME') {
         const nom = contenu.split(';').pop().trim();
         console.log(`Suppression MQTT par nom : ${nom}`);
         fetch('http://localhost:3000/items/delete/name', {
@@ -101,11 +101,11 @@ if (element === 'ITEM' && module === 'MODULE' && action === 'MODIFY' && cible ==
             body: `nom=${encodeURIComponent(nom)}`
         })
     }
- 
+
 
     console.log(element, module, action, cible);
 
-    
+
 });
 
 
@@ -124,9 +124,9 @@ app.use('/items/add', require('./routes/items'));
 app.use('/contacts', require('./routes/contacts'));
 app.use((req, res) => res.status(404).render('pages/404', { title: 'Page introuvable' }));
 app.use((err, req, res, next) => {
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  res.status(err.status || 500).render('error');
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.status(err.status || 500).render('error');
 });
 
 

@@ -103,7 +103,7 @@ liste.add(new Item(3, "test3", 77.45));
 
 router.get('/', (req, res) => {
 
-  let success = req.query.success;
+    let success = req.query.success;
 
     liste.refactor();
 

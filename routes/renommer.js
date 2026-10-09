@@ -5,8 +5,8 @@
  */
 const express = require('express');
 const router = express.Router();
-var mqtt = require('mqtt'); 
-var client  = mqtt.connect('mqtt://127.0.0.1:1883');
+var mqtt = require('mqtt');
+var client = mqtt.connect('mqtt://127.0.0.1:1883');
 
 const { Item, liste } = require('./index');
 
@@ -21,7 +21,7 @@ router.post('/', (req, res) => {
         client.publish('ITEM/WEB/MODIFY/ID', `${id};${newNom};${newPrix}`);
         req.app.get('io').emit('items:updated');
     }
-        
+
 
     res.redirect('/?success=' + modifie + '&action=modify');
 });
