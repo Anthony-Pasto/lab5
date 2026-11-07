@@ -4,7 +4,7 @@
  * Description : Definit les styles de base des pages, formulaires et alertes.
  */
 body { font-family: Arial, sans-serif; margin: 0; }
-header { padding: 20px; background: #222; color: white; }
+header { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #222; color: white; }
 nav a { color: white; margin-right: 15px; text-decoration: none; }
 main { padding: 30px; }
 .alert { margin: 16px 30px; padding: 14px 18px; border: 1px solid transparent; border-radius: 4px; }
