@@ -5,8 +5,7 @@
  */
 const express = require('express');
 const router = express.Router();
-var mqtt = require('mqtt');
-var client = mqtt.connect('mqtt://127.0.0.1:1883');
+var client = require('../mqttClient'); // C1 : évite d'ouvrir une autre connexion MQTT
 
 const { Item, liste } = require('./index');
 
@@ -18,8 +17,10 @@ router.post('/', (req, res) => {
 
     let supprime = liste.removeItemByName(nom);
     if (supprime) {
-        client.publish('ITEM/WEB/DELETE/NAME', 'Item supprimé : ' + JSON.stringify(nom));
+        client.publish('ITEM/WEB/DELETE/NAME', nom); // A13 : envoie seulement le nom sur MQTT
         req.app.get('io').emit('items:updated');
+    } else {
+        console.log('Suppression impossible : nom ' + nom + ' introuvable'); // A9 : signale le nom introuvable dans la console
     }
 
 

@@ -16,8 +16,7 @@ app.set('io', io);
 const index = require('./routes/index');
 
 
-var mqtt = require('mqtt');
-var client = mqtt.connect('mqtt://127.0.0.1:1883');
+var client = require('./mqttClient'); // C1 : réutilise la connexion MQTT du projet
 
 function prixValide(prix) {
     return /^\d+(?:\.\d{1,2})?$/.test(prix) && Number.isFinite(Number(prix));
@@ -73,7 +72,7 @@ client.on('message', function (topic, message) {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: `nom=${texte}&prix=${prix}`
+            body: `nom=${encodeURIComponent(texte)}&prix=${encodeURIComponent(prix)}` // A15 : gère les caractères spéciaux dans les noms
         })
     }
 
@@ -116,7 +115,7 @@ app.set('views', './views');
 app.use(express.static('./public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use('/items/delete/id', require('./routes/delet'));
+app.use('/items/delete/id', require('./routes/delete')); // D3 : nom du fichier corrigé
 app.use('/items/delete/name', require('./routes/sup_nom'));
 app.use('/items/modify/id', require('./routes/renommer'));
 app.use(index.router);

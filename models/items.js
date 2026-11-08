@@ -1,0 +1,97 @@
+/* Modèle des items et liste en mémoire. */
+class Item { // C4 : classe regroupée avec ItemList dans models
+
+    id = 0;
+    dateCreation = "";
+    nom = "";
+    prix = 0.0;
+
+    constructor(id, nom, prix) {
+        this.id = id;
+        this.nom = nom;
+        this.prix = prix;
+        this.dateCreation = new Date().toLocaleDateString("en-US");
+    }
+
+    print() {
+        console.log(
+            "id: " + this.id +
+            " nom: " + this.nom +
+            " prix: " + this.prix +
+            " dateCreation: " + this.dateCreation
+        );
+    }
+}
+
+
+class ItemList {
+
+    constructor() {
+        this.tab = [];
+    }
+
+    add(item) {
+        this.tab.push(item);
+    }
+
+    getLength() {
+        return this.tab.length;
+    }
+
+    removeItemById(id) {
+
+        let index = this.tab.findIndex(item => item.id === id);
+
+        if (index !== -1) {
+            this.tab.splice(index, 1);
+            return true;
+        }
+        return false;
+    }
+
+    removeItemByName(name) {
+
+        let index = this.tab.findIndex(item => item.nom === name);
+
+        if (index !== -1) {
+            this.tab.splice(index, 1);
+            return true;
+        }
+        return false;
+    }
+
+    getLastItem() {
+
+        if (this.tab.length > 0) {
+            return this.tab[this.tab.length - 1];
+        }
+    }
+
+    printAllItems() {
+        console.log(this.tab);
+    }
+    refactor() {
+        this.tab.forEach((item, index) => {
+            item.id = index + 1;
+        });
+    }
+    modifyItemById(id, newNom, newPrix) {
+        let index = this.tab.findIndex(item => item.id === id);
+        if (index !== -1) {
+            let item = this.tab[index];
+            item.nom = newNom;
+            item.prix = newPrix;
+            return true;
+        }
+        return false;
+    }
+}
+
+// Création de la liste
+const liste = new ItemList();
+
+liste.add(new Item(1, "test1", 12.34));
+liste.add(new Item(2, "test2", 12.45));
+liste.add(new Item(3, "test3", 77.45));
+
+module.exports = { Item, ItemList, liste };
